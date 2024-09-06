@@ -48,7 +48,7 @@ def get_ppas_and_archive(url):
                 else:
                     continue
             else:
-                   ppas.append(user+pack)
+                ppas.append(user+pack)
     return ppas
 
 
@@ -58,12 +58,11 @@ def main():
     choices = argcomplete.completers.ChoicesCompleter
     parser = argparse.ArgumentParser(description="List available ppas from 'https://launchpad.net' and add results to a file (if not in file already)",formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("-o", "--only-list", action='store_true', required=False, help="Only list configuration")
-    parser.add_argument("-f","--file", required=False, help="Output file", metavar="Output file", default=def_path)
+    parser.add_argument("-f","--file", required=False, help="Output file (default: " + def_path + ")", metavar="Output file")
 
     if which('add-apt-repository') is not None:
         parser.add_argument("-n","--not-check-available", action='store_false', required=False, help="Dont check if available for Ubuntu version")
          
-    
     output_stream = None
     if "_ARGCOMPLETE_POWERSHELL" in os.environ:
         output_stream = codecs.getwriter("utf-8")(sys.stdout.buffer)
@@ -83,14 +82,14 @@ def main():
     if hasattr(args, 'not_check_available'): 
         check_av=args.not_check_available 
 
-    if args.file == def_path and args.only_list == False: 
-        res = prompt("Save results to file or output only? [y/n]: ", pre_run=prompt_autocomplete, completer=WordCompleter(["y", "n"]))
-    elif not args.file == def_path:
+    if not args.file and args.only_list == False: 
+        res = prompt("Save results to file or output only? [Y/n]: ", pre_run=prompt_autocomplete, completer=WordCompleter(["y", "n"]))
+    elif args.file:
         res='y'
     elif args.only_list == True:
         res='n'
 
-    if res == 'y':
+    if res == 'y' or not res:
         if not args.file: 
             res1 = prompt("Filepath: (can be nonexistant - Empty: " + str(def_path) + "): ", pre_run=prompt_autocomplete, completer=PathCompleter())
         else:
@@ -116,13 +115,17 @@ def main():
             for x in ppas:
                 if x not in unique_ppas:
                     unique_ppas.append(x) 
-
+            
             for ppa in unique_ppas:
-                if res == 'y': 
+                if res == 'y':
+                    non_uniq=False 
                     with open(path,"r+") as file:
                         for line in file:
-                            if line == ppa: 
+                            if ppa in line:
+                                non_uniq = True 
                                 break
+                        if non_uniq == True:
+                            break
                         file.write(ppa + '\n')
                         print(str(ppa) + " added to " + str(path)) 
                 else: 

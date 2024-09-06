@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# PYTHON_ARGCOMPLETE_OK
+
 import os
 
 from shutil import which
@@ -58,7 +61,7 @@ def main():
     choices = argcomplete.completers.ChoicesCompleter
     parser = argparse.ArgumentParser(description="List available ppas from 'https://launchpad.net' and add results to a file (if not in file already)",formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("-o", "--only-list", action='store_true', required=False, help="Only list configuration")
-    parser.add_argument("-f","--file", required=False, help="Output file", metavar="Output file", default=def_path)
+    parser.add_argument("-f","--file", required=False, help="Output file (default: " + def_path + ")", metavar="Output file")
 
     if which('add-apt-repository') is not None:
         parser.add_argument("-n","--not-check-available", action='store_false', required=False, help="Dont check if available for Ubuntu version")
@@ -82,15 +85,15 @@ def main():
     if hasattr(args, 'not_check_available'): 
         check_av=args.not_check_available 
 
-    if args.file == def_path and args.only_list == False: 
+    if not args.file and args.only_list == False: 
         res = prompt("Save results to file or output only? [Y/n]: ", pre_run=prompt_autocomplete, completer=WordCompleter(["y", "n"]))
-    elif not args.file == def_path:
+    elif args.file:
         res='y'
     elif args.only_list == True:
         res='n'
 
     if res == 'y' or not res:
-        if args.file == def_path: 
+        if not args.file: 
             res1 = prompt("Filepath: (can be nonexistant - Empty: " + str(def_path) + "): ", pre_run=prompt_autocomplete, completer=PathCompleter())
         else:
             res1=os.path.expandvars(os.path.expanduser(args.file))
@@ -132,5 +135,6 @@ def main():
                     print(ppa)
                      
 if __name__ == '__main__':
+#!/usr/bin/env python
+# PYTHON_ARGCOMPLETE_OK
     main()
-
