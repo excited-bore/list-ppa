@@ -1,0 +1,12 @@
+# Byte-compiled / optimized / DLL files
+copy_to.egg-info/
+__pycache__/
+tags
+dist/
+wheels/
+venv/
+tags/
+PKG-INFO/
+setup.cfg/
+coc-settings.json
+confs.json
