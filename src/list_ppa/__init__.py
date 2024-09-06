@@ -48,7 +48,7 @@ def get_ppas_and_archive(url):
                 else:
                     continue
             else:
-                   ppas.append(user+pack)
+                ppas.append(user+pack)
     return ppas
 
 
@@ -63,7 +63,6 @@ def main():
     if which('add-apt-repository') is not None:
         parser.add_argument("-n","--not-check-available", action='store_false', required=False, help="Dont check if available for Ubuntu version")
          
-    
     output_stream = None
     if "_ARGCOMPLETE_POWERSHELL" in os.environ:
         output_stream = codecs.getwriter("utf-8")(sys.stdout.buffer)
@@ -84,14 +83,14 @@ def main():
         check_av=args.not_check_available 
 
     if args.file == def_path and args.only_list == False: 
-        res = prompt("Save results to file or output only? [y/n]: ", pre_run=prompt_autocomplete, completer=WordCompleter(["y", "n"]))
+        res = prompt("Save results to file or output only? [Y/n]: ", pre_run=prompt_autocomplete, completer=WordCompleter(["y", "n"]))
     elif not args.file == def_path:
         res='y'
     elif args.only_list == True:
         res='n'
 
-    if res == 'y':
-        if not args.file: 
+    if res == 'y' or not res:
+        if args.file == def_path: 
             res1 = prompt("Filepath: (can be nonexistant - Empty: " + str(def_path) + "): ", pre_run=prompt_autocomplete, completer=PathCompleter())
         else:
             res1=os.path.expandvars(os.path.expanduser(args.file))
@@ -116,13 +115,17 @@ def main():
             for x in ppas:
                 if x not in unique_ppas:
                     unique_ppas.append(x) 
-
+            
             for ppa in unique_ppas:
-                if res == 'y': 
+                if res == 'y':
+                    non_uniq=False 
                     with open(path,"r+") as file:
                         for line in file:
-                            if re.search(ppa, line): 
+                            if ppa in line:
+                                non_uniq = True 
                                 break
+                        if non_uniq == True:
+                            break
                         file.write(ppa + '\n')
                         print(str(ppa) + " added to " + str(path)) 
                 else: 

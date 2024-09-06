@@ -42,7 +42,6 @@ def get_ppas_and_archive(url):
                 codename=subprocess.check_output(["lsb_release", "-sc"])
                 codename=str(codename).replace('b', '').replace('\\n','').replace("'","",2) 
                 url="http://ppa.launchpad.net/" + str(user) + str(pack) + "/ubuntu/dists/" + str(codename) + "/"
-                print(url) 
                 response = requests.get(url)
                 if response.status_code == 200:
                     ppas.append(user+pack)
@@ -122,7 +121,7 @@ def main():
                 if res == 'y': 
                     with open(path,"r+") as file:
                         for line in file:
-                            if re.search(ppa, line): 
+                            if line == ppa: 
                                 break
                         file.write(ppa + '\n')
                         print(str(ppa) + " added to " + str(path)) 
