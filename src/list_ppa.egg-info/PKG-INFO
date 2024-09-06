@@ -1,11 +1,11 @@
 Metadata-Version: 2.1
 Name: list-ppa
-Version: 1.0
+Version: 1.1
 Summary: A little commandline tool to list available ppas from ubuntu
 Author-email: Excited Bore <brunt-curry-wobble@duck.com>
 Project-URL: Homepage, https://github.com/excited-bore/list-ppa
 Project-URL: Bug Tracker, https://github.com/excited-bore/list-ppa/issues
-Keywords: list-ppa,setuptools,ubuntu
+Keywords: list-ppa,setuptools,ubuntu,argcomplete
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
@@ -14,6 +14,8 @@ Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: bs4
 Requires-Dist: requests
+Requires-Dist: prompt_toolkit>=3.0.20
+Requires-Dist: argcomplete
 
 ## List-ppa
 
@@ -30,7 +32,8 @@ Depends on:
 ## Installation:  
 
 ```
-sudo apt install pipx / sudo pacman -S python-pipx
+sudo apt install pipx 
+pipx ensurepath
 pipx install list-ppa
 ```  
 

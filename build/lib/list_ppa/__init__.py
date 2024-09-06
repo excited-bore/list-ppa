@@ -72,7 +72,9 @@ def main():
     elif args.only_list == True:
         res='n'
 
+    print(res) 
     if res == 'y':
+        
         if not args.file: 
             res1 = prompt("Filepath: (can be nonexistant - Empty: " + str(def_path) + "): ", pre_run=prompt_autocomplete, completer=PathCompleter())
         else:

@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools", "bs4", "requests"]
+requires = ["setuptools", "bs4", "requests" , "prompt_toolkit"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "list-ppa"
@@ -8,11 +8,11 @@ authors = [
   { name="Excited Bore", email="brunt-curry-wobble@duck.com" },
 ]
 
-keywords = ["list-ppa", "setuptools", "ubuntu"]
+keywords = ["list-ppa", "setuptools", "ubuntu", "argcomplete"]
 description = "A little commandline tool to list available ppas from ubuntu"
 readme = "README.md"
 requires-python = ">=3.7"
-dependencies = [ "bs4" , "requests" ]
+dependencies = [ "bs4" , "requests", "prompt_toolkit >= 3.0.20" , "argcomplete" ]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
