@@ -127,23 +127,22 @@ def main():
     for start in range(0, int(last), 300): 
         url = 'https://launchpad.net/ubuntu/+ppas?name_filter=&batch=300'
         if start > 0:
-            print("Entries: " + str(start)) 
-            url = url + '&memo=' + str(start) + "&start=" + str(start) 
-            ppas = get_ppas_and_archive(url)
-            for ppa in ppas: 
-                if res == 'y':
-                    non_uniq=False 
-                    with open(path,"r+") as file:
-                        for line in file:
-                            if ppa in line:
-                                non_uniq = True 
-                                break
-                        if non_uniq == True:
+            url = url + '&memo=' + str(start) + "&start=" + str(start)  
+        ppas = get_ppas_and_archive(url)
+        for ppa in ppas: 
+            if res == 'y':
+                non_uniq=False 
+                with open(path,"r+") as file:
+                    for line in file:
+                        if ppa in line:
+                            non_uniq = True 
                             break
-                        file.write(ppa + '\n')
-                        print(str(ppa) + " added to " + str(path)) 
-                else: 
-                    print(ppa)
+                    if non_uniq == True:
+                        continue
+                    file.write(ppa + '\n')
+                    print(str(ppa) + " added to " + str(path)) 
+            else: 
+                print(ppa)
 
 if __name__ == '__main__':
 #!/usr/bin/env python
