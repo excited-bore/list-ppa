@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: list-ppa
-Version: 1.10
+Version: 1.13
 Summary: A little commandline tool to list available ppas from ubuntu
 Author-email: Excited Bore <brunt-curry-wobble@duck.com>
 Project-URL: Homepage, https://github.com/excited-bore/list-ppa

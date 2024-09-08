@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# PYTHON_ARGCOMPLETE_OK
+
 import os
 
 from shutil import which
@@ -70,10 +73,6 @@ def main():
     argcomplete.autocomplete(parser, output_stream=output_stream)
     
     args = parser.parse_args()
-   
-     
-    # Dirty method but it does the trick 
-    alphabet=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
     
     path=def_path
     
@@ -105,32 +104,31 @@ def main():
                     with open(def_path, 'w'): pass
             path= os.path.abspath(os.path.abspath(res1)) 
 
-    for lttr in alphabet:
-        for lttr1 in alphabet:
-            url = 'https://launchpad.net/ubuntu/+ppas?name_filter=' + lttr + lttr1
+    url = 'https://launchpad.net/ubuntu/+ppas?name_filter='            
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    
+    last='' 
+    for link in soup.find_all('a'):
+        href = link.get('href')
+        clas_s = link.get('class')
+        if not last and clas_s == ['last']:
+            last=href.split('start=')[1] 
+    
+    for start in range(0, int(last), 300): 
+        url = 'https://launchpad.net/ubuntu/+ppas?name_filter=&batch=300'
+        if start > 0:
+            url = url + '&memo=' + str(start) + "&start=" + str(start) 
             ppas = get_ppas_and_archive(url)
-            
-            unique_ppas = []
-
-            for x in ppas:
-                if x not in unique_ppas:
-                    unique_ppas.append(x) 
-            
-            for ppa in unique_ppas:
+            for ppa in ppas: 
                 if res == 'y':
-                    non_uniq=False 
                     with open(path,"r+") as file:
-                        for line in file:
-                            if ppa in line:
-                                non_uniq = True 
-                                break
-                        if non_uniq == True:
-                            break
-                        file.write(ppa + '\n')
-                        print(str(ppa) + " added to " + str(path)) 
+                        file.write(ppas + '\n')
+                        print(str(ppas) + " added to " + str(path)) 
                 else: 
                     print(ppa)
-                     
+             
 if __name__ == '__main__':
+#!/usr/bin/env python
+# PYTHON_ARGCOMPLETE_OK
     main()
-
