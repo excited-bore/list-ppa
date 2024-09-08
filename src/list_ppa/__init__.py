@@ -64,7 +64,7 @@ def main():
     choices = argcomplete.completers.ChoicesCompleter
     parser = argparse.ArgumentParser(description="List available ppas from 'https://launchpad.net' and add results to a file (if not in file already)",formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("-o", "--only-list", action='store_true', required=False, help="Only list configuration")
-    parser.add_argument('--version', action='version', version='%(prog)s {version}'.format(version=__version__)) 
+    parser.add_argument("-v",'--version', action='version', version='%(prog)s {version}'.format(version=__version__)) 
     
     parser.add_argument("-f","--file", required=False, help="Output file (default: " + def_path + ")", metavar="Output file")
 
@@ -127,6 +127,7 @@ def main():
     for start in range(0, int(last), 300): 
         url = 'https://launchpad.net/ubuntu/+ppas?name_filter=&batch=300'
         if start > 0:
+            print("Entries: " + str(start)) 
             url = url + '&memo=' + str(start) + "&start=" + str(start) 
             ppas = get_ppas_and_archive(url)
             for ppa in ppas: 
