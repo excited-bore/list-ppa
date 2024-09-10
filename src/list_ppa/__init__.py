@@ -25,7 +25,7 @@ import re
 
 from bs4 import BeautifulSoup
 
-check_av=False
+check_av=True
 
 def prompt_autocomplete():
     app = get_app()
@@ -47,7 +47,7 @@ def get_ppas_and_archive(url):
             pack = str(href.split('/ubuntu')[1]) 
             if which('add-apt-repository') is not None and check_av == True:
                 codename=subprocess.check_output(["lsb_release", "-sc"])
-                codename=str(codename).replace('b', '').replace('\\n','').replace("'","",2) 
+                codename=str(codename).replace('\\n','').replace("'","",2)[1:] 
                 url="http://ppa.launchpad.net/" + str(user) + str(pack) + "/ubuntu/dists/" + str(codename) + "/"
                 response = requests.get(url)
                 if response.status_code == 200:
@@ -63,7 +63,7 @@ def main():
     
     choices = argcomplete.completers.ChoicesCompleter
     parser = argparse.ArgumentParser(description="List available ppas from 'https://launchpad.net' and add results to a file (if not in file already)",formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("-o", "--only-list", action='store_true', required=False, help="Only list configuration")
+    parser.add_argument("-o", "--only-list", action='store_true', required=False, help="Only list ppas, dont save or ask")
     parser.add_argument("-v",'--version', action='version', version='%(prog)s {version}'.format(version=__version__)) 
     
     parser.add_argument("-f","--file", required=False, help="Output file (default: " + def_path + ")", metavar="Output file")
@@ -84,7 +84,7 @@ def main():
     res='n' 
     
     if hasattr(args, 'not_check_available'): 
-        check_av=args.not_check_available 
+        check_av= not args.not_check_available 
 
     if not args.file and args.only_list == False: 
         res = prompt("Save results to file or output only? [Y/n]: ", pre_run=prompt_autocomplete, completer=WordCompleter(["y", "n"]))
