@@ -139,7 +139,7 @@ def main():
                             break
                     if non_uniq == True:
                         continue
-                    file.write(ppa + '\n')
+                    file.write(str(ppa) + '\n')
                     print(str(ppa) + " added to " + str(path)) 
             else: 
                 print(ppa)
