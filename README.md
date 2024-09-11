@@ -17,7 +17,13 @@ Depends on:
 
 ```
 sudo apt install pipx 
+pipx install pipx
+pipx upgrade pipx
+sudo apt remove pipx
 pipx ensurepath
+(optional) sudo pipx --global ensurepath
+(optional - completions) pipx install argcomplete
+(optional - completions) activate-global-python-argcomplete
 pipx install list-ppa
 ```  
 

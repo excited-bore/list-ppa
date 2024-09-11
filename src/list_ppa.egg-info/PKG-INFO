@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: list-ppa
-Version: 1.25
+Version: 1.28
 Summary: A little commandline tool to list available ppas from ubuntu
 Author-email: Excited Bore <brunt-curry-wobble@duck.com>
 Project-URL: Homepage, https://github.com/excited-bore/list-ppa
@@ -36,7 +36,13 @@ Depends on:
 
 ```
 sudo apt install pipx 
+pipx install pipx
+pipx upgrade pipx
+sudo apt remove pipx
 pipx ensurepath
+(optional) sudo pipx --global ensurepath
+(optional - completions) pipx install argcomplete
+(optional - completions) activate-global-python-argcomplete
 pipx install list-ppa
 ```  
 
